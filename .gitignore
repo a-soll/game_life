@@ -3,4 +3,5 @@
 test
 grid
 .vscode
-main.d*
+*.dSYM
+field

@@ -2,3 +2,5 @@
 /test.cpp
 test
 grid
+.vscode
+main.d*

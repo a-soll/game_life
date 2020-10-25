@@ -51,13 +51,17 @@ void draw(int arr[][width]) {
     }
 }
 
-// void check_live(int next[][width], int x, int y, int* neighbors) {
-//     if (spot) {
-//         if (*neighbors < 2) {
-//             std::cout << "hey";
-//         }
-//     }
-// }
+void evaluate(int arr[][width], int next[][width], int neighbors, int x, int y) {
+    bool live = arr[x][y];
+    if (live && neighbors < 2 || neighbors > 3) {
+        next[x][y] = 0;
+    } else if (live == false && neighbors == 3) {
+        next[x][y] = 1;
+    }
+    else{
+        next[x][y] = arr[x][y];
+    }
+}
 
 int count_neighbors(int arr[][width], int x, int y) {
     int x_pos = -1;
@@ -88,19 +92,17 @@ int count_neighbors(int arr[][width], int x, int y) {
 }
 
 int main(int argc, char const *argv[]) {
-    srand(time(NULL));
     int arr[height][width];
     int next[height][width];
-    int neighbors;
 
     generate(arr);
     draw(arr);
+    printf("\n");
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            neighbors = count_neighbors(arr, i, j);
-            if (neighbors > 0) {
-                std::cout << neighbors << std::endl;
-            }
+            int neighbors = count_neighbors(arr, i, j);
+            evaluate(arr, next, neighbors, i, j);
         }
     }
+    draw(next);
 }

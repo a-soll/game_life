@@ -57,8 +57,7 @@ void evaluate(int arr[][width], int next[][width], int neighbors, int x, int y) 
         next[x][y] = 0;
     } else if (live == false && neighbors == 3) {
         next[x][y] = 1;
-    }
-    else{
+    } else {
         next[x][y] = arr[x][y];
     }
 }
@@ -93,16 +92,30 @@ int count_neighbors(int arr[][width], int x, int y) {
 
 int main(int argc, char const *argv[]) {
     int arr[height][width];
-    int next[height][width];
+    int arr2[height][width];
 
-    generate(arr);
-    draw(arr);
-    printf("\n");
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            int neighbors = count_neighbors(arr, i, j);
-            evaluate(arr, next, neighbors, i, j);
+    int(*now)[height][width];
+    int(*next)[height][width];
+    int(*tmp)[height][width];
+
+    now = &arr;
+    next = &arr2;
+
+    generate(*now);
+
+    while (true) {
+        draw(*now);
+        printf("\n");
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int neighbors = count_neighbors(*now, i, j);
+                evaluate(*now, *next, neighbors, i, j);
+            }
         }
+        draw(*next);
+        tmp = next;
+        next = now;
+        now = tmp;
+        sleep(1);
     }
-    draw(next);
 }
